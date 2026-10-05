@@ -1,0 +1,10 @@
+Configuration,Value
+Context Window (n_ctx),32 tokens
+Layers (n_layers),4
+Attention Heads,4 per layer (16 total)
+Model Dimension (d_model),128
+MLP Dimension (d_mlp),512
+Activation Function,GELU
+Optimizer,"AdamW (lr=3e-4, weight_decay=0.01)"
+Batch Size,64
+Dataset Size,"10,000 synthetic pairs"

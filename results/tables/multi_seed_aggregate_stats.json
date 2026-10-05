@@ -1,0 +1,15 @@
+{
+  "num_seeds": 5,
+  "circuit_size_mean": 2.0,
+  "circuit_size_median": 2.0,
+  "circuit_size_95ci": [
+    2.0,
+    2.0
+  ],
+  "sufficiency_acc_mean": 0.9795999999999999,
+  "sufficiency_acc_95ci": [
+    0.9460000000000001,
+    1.0
+  ],
+  "performance_gap_mean": 0.020399999999999995
+}

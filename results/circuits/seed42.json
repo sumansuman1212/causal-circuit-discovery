@@ -1,0 +1,22 @@
+{
+  "seed": 42,
+  "circuit_size": 2,
+  "circuit_components": [
+    "L0H0",
+    "L2H0"
+  ],
+  "baseline_accuracy": 1.0,
+  "target_retention_ratio": 0.9,
+  "metrics": {
+    "sufficiency_accuracy": 1.0,
+    "sufficiency_preservation_ratio": 0.9999999999989999,
+    "necessity_ablated_accuracy": 1.0,
+    "necessity_accuracy_drop": 0.0,
+    "random_control_sufficiency_mean": 0.7208,
+    "random_control_sufficiency_std": 0.3371814941541128
+  },
+  "search_parameters": {
+    "initial_candidates_count": 4,
+    "algorithm": "greedy_backward_pruning"
+  }
+}

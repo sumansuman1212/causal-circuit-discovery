@@ -1,0 +1,35 @@
+{
+  "seeds": [
+    42,
+    123,
+    456,
+    789,
+    1000
+  ],
+  "mean_structural_jaccard": 0.2333333333333333,
+  "std_structural_jaccard": 0.30000000000000004,
+  "mean_functional_correlation": 0.073795432550089,
+  "std_functional_correlation": 0.22703007862487667,
+  "circuits": {
+    "42": [
+      "L0H0",
+      "L2H0"
+    ],
+    "123": [
+      "L1H3",
+      "L1H2"
+    ],
+    "456": [
+      "L0H0",
+      "L1H3"
+    ],
+    "789": [
+      "L0H0",
+      "L1H3"
+    ],
+    "1000": [
+      "L0H2",
+      "L0H1"
+    ]
+  }
+}

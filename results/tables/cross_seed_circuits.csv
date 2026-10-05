@@ -1,0 +1,6 @@
+seed,circuit_size,circuit_components,baseline_accuracy,sufficiency_accuracy
+42,2,"L0H0, L2H0",1.0,1.0
+123,2,"L1H2, L1H3",1.0,0.982
+456,2,"L0H0, L1H3",1.0,1.0
+789,2,"L0H0, L1H3",1.0,0.916
+1000,2,"L0H1, L0H2",1.0,1.0

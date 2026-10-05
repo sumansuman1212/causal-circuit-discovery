@@ -1,0 +1,3 @@
+experiment,component,ablated_accuracy,accuracy_drop,drop_percentage
+full_circuit_ablation,ALL_CANDIDATES_0,1.0,0.0,0.0
+random_control_summary,RANDOM_0_HEADS,1.0,0.0,0.0

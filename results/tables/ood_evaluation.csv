@@ -1,0 +1,5 @@
+Dataset Split,Full Model Accuracy,Circuit Accuracy,Circuit Retention Ratio,Circuit Gap
+In-Distribution,1.0,0.27,0.26999999999973,0.73
+OOD-1 (Unseen Entities),1.0,0.215,0.21499999999978497,0.785
+OOD-2 (Distractors),0.533,0.044,0.0825515947465618,0.48900000000000005
+OOD-3 (Longer Context),0.182,0.033,0.18131868131768508,0.149
