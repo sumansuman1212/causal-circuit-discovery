@@ -12,7 +12,7 @@ An interpretability research framework to automatically identify, ablate, prune,
 
 ```bash
 # Clone the repository
-git clone [https://github.com/your-username/causal-circuit-discovery.git](https://github.com/your-username/causal-circuit-discovery.git)
+git clone [https://github.com/sumansuman1212/causal-circuit-discovery.git](https://github.com/sumansuman1212/causal-circuit-discovery.git)
 cd causal-circuit-discovery
 
 # Create virtual environment
