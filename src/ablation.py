@@ -95,7 +95,9 @@ def run_ablation_experiment(
     checkpoint_path: Path = Path("models/checkpoints/model_seed42.pt"),
     patching_csv: Path = Path("results/patching/seed42.csv"),
     seed: int = 42,
+    threshold: float = 0.20,
     num_random_repeats: int = 10,
+    device: str = "cpu",
     output_dir: Path = Path("results/ablation"),
 ) -> pd.DataFrame:
     """
@@ -103,7 +105,6 @@ def run_ablation_experiment(
     and rigorous random ablation controls.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
     random.seed(seed)
     torch.manual_seed(seed)
 
@@ -125,7 +126,11 @@ def run_ablation_experiment(
 
     # 3. Load Causal Candidates
     df_patching = pd.read_csv(patching_csv)
-    candidates = select_candidate_components(df_patching, threshold=0.20)
+    candidates = select_candidate_components(df_patching, threshold=threshold)
+    if not candidates:
+        print(f"[INFO] No components exceeded threshold {threshold:.2f}. Falling back to top-4 candidates.")
+        candidates = select_candidate_components(df_patching, top_k=4)
+
     all_heads = [(l, h) for l in range(model_cfg.n_layers) for h in range(model_cfg.n_heads)]
     non_candidates = [head for head in all_heads if head not in candidates]
 

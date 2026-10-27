@@ -4,7 +4,6 @@ from typing import Dict, List, Tuple
 import pandas as pd
 import torch
 import torch.nn.functional as F
-from tqdm import tqdm
 
 from src.activations import ActivationCache
 from src.config import ModelConfig, TrainConfig
@@ -126,13 +125,13 @@ def run_activation_patching_experiment(
     num_eval_samples: int = 256,
     batch_size: int = 64,
     seed: int = 42,
+    device: str = "cpu",
     output_dir: Path = Path("results/patching"),
 ) -> pd.DataFrame:
     """
-    Full driver for Phase 7: loads checkpoint, builds paired data, evaluates, and writes CSV.
+    Driver for activation patching: loads checkpoint, builds paired data, evaluates, and writes CSV.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # 1. Dataset & Vocabulary
     task_gen = SyntheticTaskGenerator(seed=seed)

@@ -98,14 +98,13 @@ def run_circuit_discovery(
     seed: int = 42,
     retention_threshold: float = 0.90,
     num_random_controls: int = 10,
+    device: str = "cpu",
     output_dir: Path = Path("results/circuits"),
 ) -> Dict:
     """
-    Orchestrates Phase 13, 14, and 15: discovers minimal circuit, verifies sufficiency,
-    necessity, and random-circuit controls, then dumps to JSON.
+    Discovers minimal circuit, verifies sufficiency, necessity, and random controls, then dumps JSON.
     """
     output_dir.mkdir(parents=True, exist_ok=True)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
     random.seed(seed)
     torch.manual_seed(seed)
 

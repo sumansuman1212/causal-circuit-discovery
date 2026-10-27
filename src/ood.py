@@ -99,6 +99,7 @@ def evaluate_ood_shifts(
     circuit_json: Path = Path("results/circuits/seed42.json"),
     seed: int = 42,
     num_eval_samples: int = 1000,
+    device: str = "cpu",
     output_dir: Path = Path("results/ood"),
     tables_dir: Path = Path("results/tables"),
     figures_dir: Path = Path("results/figures"),
@@ -109,7 +110,6 @@ def evaluate_ood_shifts(
     output_dir.mkdir(parents=True, exist_ok=True)
     tables_dir.mkdir(parents=True, exist_ok=True)
     figures_dir.mkdir(parents=True, exist_ok=True)
-    device = "cuda" if torch.cuda.is_available() else "cpu"
 
     # 1. Load Discovered Minimal Circuit
     with open(circuit_json, "r") as f:

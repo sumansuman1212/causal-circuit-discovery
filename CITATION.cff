@@ -1,0 +1,19 @@
+cff-version: 1.2.0
+message: "If you use this software or cite the methodology, please cite it as below."
+title: "Automated Discovery and Causal Validation of Minimal Transformer Circuits"
+authors:
+  - family-names: "Saurabh"
+    given-names: "Suman"
+repository-code: "https://github.com/sumansuman1212/causal-circuit-discovery"
+abstract: >-
+  An interpretability research framework to automatically identify, ablate,
+  prune, and causally validate minimal Transformer circuits on algorithmic tasks,
+  evaluating cross-seed stability and out-of-distribution generalization.
+keywords:
+  - "mechanistic interpretability"
+  - "transformer circuits"
+  - "causal intervention"
+  - "activation patching"
+  - "ai safety"
+date-released: "2026-10-27"
+version: "0.1.0"

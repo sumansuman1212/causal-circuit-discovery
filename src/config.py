@@ -20,7 +20,7 @@ class TrainConfig:
     lr: float = 3e-4
     weight_decay: float = 1e-2
     epochs: int = 15
-    device: str = "cuda" if torch.cuda.is_available() else "cpu"
+    device: str = "cpu"
     checkpoint_dir: Path = Path("models/checkpoints")
     results_dir: Path = Path("results/baseline")
 

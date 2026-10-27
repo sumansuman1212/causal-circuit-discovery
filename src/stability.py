@@ -127,10 +127,11 @@ def run_cross_seed_analysis(
     seeds: List[int] = [42, 123, 456, 789, 1000],
     epochs: int = 15,
     retention_threshold: float = 0.90,
+    device: str = "cpu",
     results_dir: Path = Path("results/stability"),
 ) -> Dict:
     """
-    Executes Phase 16, 17, and 18 across multiple random seeds.
+    Executes cross-seed pipeline across multiple random seeds.
     Trains models, patches heads, discovers minimal circuits, and analyzes cross-seed stability.
     """
     results_dir.mkdir(parents=True, exist_ok=True)
@@ -145,7 +146,7 @@ def run_cross_seed_analysis(
         print(f"--> Processing Random Seed: {seed}")
         print(f"==========================================")
 
-        t_cfg = TrainConfig(seed=seed, epochs=epochs)
+        t_cfg = TrainConfig(seed=seed, epochs=epochs, device=device)
         m_cfg = ModelConfig()
         ckpt_path = t_cfg.checkpoint_dir / f"model_seed{seed}.pt"
         patch_csv = Path(f"results/patching/seed{seed}.csv")
@@ -162,6 +163,7 @@ def run_cross_seed_analysis(
             df_patch = run_activation_patching_experiment(
                 checkpoint_path=ckpt_path,
                 seed=seed,
+                device=device,
                 output_dir=Path("results/patching"),
             )
         else:
@@ -182,6 +184,7 @@ def run_cross_seed_analysis(
                 patching_csv=patch_csv,
                 seed=seed,
                 retention_threshold=retention_threshold,
+                device=device,
                 output_dir=Path("results/circuits"),
             )
         else:

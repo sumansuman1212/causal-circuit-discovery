@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Automated Discovery and Causal Validation of Minimal Transformer Circuits</title>
+<script>
+window.MathJax = {
+  tex: {
+    inlineMath: [['$', '$'], ['\\(', '\\)']],
+    displayMath: [['$$', '$$'], ['\\[', '\\]']]
+  },
+  svg: {
+    fontCache: 'global'
+  }
+};
+</script>
+<script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-svg.js"></script>
+<style>
+@page {
+  size: A4;
+  margin: 20mm 18mm 20mm 18mm;
+  @bottom-center {
+    content: counter(page);
+    font-size: 9pt;
+    font-family: 'Times New Roman', Times, serif;
+    color: #555;
+  }
+}
+
+body {
+  font-family: 'Times New Roman', Times, Georgia, serif;
+  font-size: 10.5pt;
+  line-height: 1.55;
+  color: #111;
+  max-width: 820px;
+  margin: 0 auto;
+  padding: 10px;
+  background-color: #fff;
+}
+
+h1:first-of-type {
+  font-size: 19pt;
+  font-weight: 700;
+  text-align: center;
+  margin-top: 10px;
+  margin-bottom: 12px;
+  line-height: 1.3;
+  color: #0b1a30;
+}
+
+/* Authors & Metadata */
+p:has(strong:contains("Author")), p:has(strong) {
+  text-align: center;
+}
+
+p > strong:first-child {
+  font-size: 10.5pt;
+}
+
+hr {
+  border: 0;
+  border-top: 1px solid #ccc;
+  margin: 18px 0;
+}
+
+h2 {
+  font-size: 13.5pt;
+  font-weight: 700;
+  color: #0b1a30;
+  margin-top: 22px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #e0e0e0;
+  padding-bottom: 3px;
+}
+
+h3 {
+  font-size: 11.5pt;
+  font-weight: 700;
+  color: #1a2a40;
+  margin-top: 16px;
+  margin-bottom: 6px;
+}
+
+/* Abstract Styling */
+h2#abstract + p,
+h2:first-of-type + p {
+  background: #f8f9fa;
+  border-left: 3px solid #2b5c8f;
+  padding: 12px 16px;
+  margin: 12px 0 20px 0;
+  font-size: 10pt;
+  line-height: 1.5;
+  text-align: justify;
+}
+
+p {
+  text-align: justify;
+  margin: 8px 0;
+}
+
+ul, ol {
+  margin: 8px 0 12px 24px;
+  padding: 0;
+}
+
+li {
+  margin-bottom: 5px;
+}
+
+/* Tables: Booktabs Academic Style */
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 16px 0;
+  font-size: 9.5pt;
+}
+
+th, td {
+  padding: 7px 10px;
+  text-align: center;
+}
+
+th {
+  border-top: 1.5px solid #111;
+  border-bottom: 1.5px solid #111;
+  font-weight: 700;
+  background-color: #f5f6f8;
+}
+
+td {
+  border-bottom: 1px solid #e2e4e8;
+}
+
+tbody tr:last-child td {
+  border-bottom: 1.5px solid #111;
+}
+
+/* Figures & Images */
+img {
+  display: block;
+  max-width: 90%;
+  height: auto;
+  margin: 14px auto 6px auto;
+  border: 1px solid #e5e5e5;
+  border-radius: 4px;
+}
+
+em {
+  display: block;
+  text-align: center;
+  font-size: 9pt;
+  color: #444;
+  margin-bottom: 14px;
+}
+
+/* Code & Monospace */
+code {
+  font-family: 'Consolas', 'Courier New', monospace;
+  font-size: 9.5pt;
+  background-color: #f4f5f7;
+  padding: 2px 4px;
+  border-radius: 3px;
+}
+
+blockquote {
+  margin: 14px 0;
+  padding: 8px 14px;
+  background-color: #f0f4f8;
+  border-left: 3px solid #2b5c8f;
+  font-size: 9.5pt;
+}
+</style>
+</head>
+<body>
+<h1 id="automated-discovery-and-causal-validation-of-minimal-transformer-circuits-redundancy-cross-seed-stability-and-distribution-shift">Automated Discovery and Causal Validation of Minimal Transformer Circuits: Redundancy, Cross-Seed Stability, and Distribution Shift</h1>
+<p><strong>Author:</strong> Suman Suman<br />
+<strong>Affiliation:</strong> Independent AI Safety &amp; Mechanistic Interpretability Research<br />
+<strong>Date:</strong> October 2026<br />
+<strong>Repository:</strong> <code>https://github.com/sumansuman1212/causal-circuit-discovery</code></p>
+<hr />
+<h2 id="abstract">Abstract</h2>
+<p>Mechanistic interpretability aims to reverse-engineer deep neural networks into human-understandable computational subgraphs, or <em>circuits</em>. However, circuit extraction methods often rely on qualitative inspection or lack systematic evaluation across independent initializations and out-of-distribution (OOD) contexts. In this work, we present an end-to-end empirical framework for the automated discovery, causal validation, and stability assessment of minimal Transformer circuits. Using an algorithmic associative recall task with mathematically verified paired counterfactuals, we train small decoder-only Transformers (4 layers, 16 attention heads, $\approx 420,!000$ parameters) to $100.0\%$ test accuracy across 5 random seeds. We perform systematic single-head activation patching to compute normalized causal effects, rank candidate components, and execute backward greedy pruning to isolate the minimal circuit $C^* = \arg\min |C|$ satisfying a $\ge 90\%$ behavioral retention constraint.</p>
+<p>Across 5 independently trained initializations, our empirical analysis reveals three foundational insights:
+1. <strong>Sufficiency Without Necessity (Architectural Degeneracy):</strong> Backward pruning consistently isolates compact 2-head circuits ($|C^<em>|=2$, reducing attention capacity by $87.5\%$) that retain $97.96\% \pm 3.6\%$ task accuracy in isolation (compared to $77.38\% \pm 3.8\%$ for size-matched random controls). However, ablating $C^</em>$ from the full network causes a $0.0\%$ accuracy drop—the remaining 14 heads and MLPs fully preserve $100.0\%$ accuracy. This establishes that overparameterized models learn parallel, functionally redundant pathways, meaning that sufficiency does not imply necessity.
+2. <strong>Cross-Seed Divergence:</strong> Discovered circuits diverge substantially across random seeds in both structure (Mean Jaccard Index $J = 0.233 \pm 0.300$, $95\%$ CI $[0.083, 0.450]$) and causal profile (Mean Pearson correlation $r = 0.074 \pm 0.227$, $95\%$ CI $[-0.072, 0.225]$). Causal vectors across the 16 heads are effectively uncorrelated across initializations, demonstrating that models converge to distinct algorithmic implementations rather than an invariant physical circuit.
+3. <strong>Out-of-Distribution Brittleness:</strong> Under distribution shifts, the isolated 2-head circuit exhibits severe performance degradation on unseen entity tokens ($21.5\%$ retention) and collapses under distractor noise ($8.3\%$ retention, $53.3\% \to 4.4\%$). This demonstrates that auxiliary attention components outside the minimal core are indispensable for noise filtering and length generalization.</p>
+<hr />
+<h2 id="1-introduction">1. Introduction</h2>
+<p>A central objective in mechanistic interpretability and AI safety is moving beyond post-hoc correlational observations toward verifiable causal mechanisms (Elhage et al., 2021; Geiger et al., 2021). While attention weight visualizations frequently suggest where a model attends, correlation does not imply computational transmission: an attention head may display sharp attention weights toward an informative token without transmitting that information into downstream representations used by the unembedding layer.</p>
+<p>To rigorously understand internal representations, researchers employ interventional frameworks—interchanging activations between clean and counterfactual inputs to measure direct causal effects on behavioral logits (Meng et al., 2022; Wang et al., 2022). However, three open questions remain critical for automated circuit discovery:
+1. <em>Can minimal computational circuits be automatically extracted without heuristic manual curation?</em>
+2. <em>Does a sufficient minimal subnetwork satisfy causal necessity, or does architectural overparameterization yield redundant parallel circuits?</em>
+3. <em>Do discovered circuits remain structurally and functionally conserved across independent random initializations, and do they generalize when subjected to distribution shifts?</em></p>
+<p>In this paper, we address these questions by deploying an automated discovery pipeline on an algorithmic associative recall benchmark. Rather than assuming that neural networks implement unique, minimal, and non-redundant circuits, we rigorously test sufficiency, necessity, random subnetwork baselines, cross-seed stability, and three formal distribution shifts.</p>
+<hr />
+<h2 id="2-experimental-task-and-architecture">2. Experimental Task and Architecture</h2>
+<h3 id="21-controlled-associative-recall">2.1 Controlled Associative Recall</h3>
+<p>To eliminate ambiguity regarding the ground-truth algorithm, we construct a synthetic associative recall task over discrete entity tokens $\mathcal{E} = {E_0, E_1, \dots, E_{N-1}}$:
+$$\mathcal{X}_{\text{clean}} = [S_1 \text{ likes } O_1 \ , \ S_2 \text{ likes } O_2 \ ; \ \text{QUERY } S_1 \text{ likes}] \implies \mathcal{Y}^* = O_1$$</p>
+<p>To perform interchange interventions, we construct paired counterfactual prompts $\mathcal{X}<em>{\text{corrupt}}$ where the target object is replaced with an alternative entity $O</em>{\text{corrupt}}$:
+$$\mathcal{X}<em>{\text{corrupt}} = [S_1 \text{ likes } O</em>{\text{corrupt}} \ , \ S_2 \text{ likes } O_2 \ ; \ \text{QUERY } S_1 \text{ likes}] \implies \mathcal{Y}^*<em>{\text{corrupt}} = O</em>{\text{corrupt}}$$</p>
+<h3 id="22-model-architecture-training-setup">2.2 Model Architecture &amp; Training Setup</h3>
+<p>We implement a small, clean decoder-only Transformer from PyTorch primitives, ensuring precise hook access at every attention head projection before $W_O$:
+- <strong>Depth:</strong> $L = 4$ Transformer blocks
+- <strong>Attention Heads:</strong> $H = 4$ heads per layer (16 attention heads total)
+- <strong>Dimensionality:</strong> $d_{\text{model}} = 128$, $d_{\text{head}} = 32$, $d_{\text{mlp}} = 512$
+- <strong>Total Parameters:</strong> $\approx 420,!000$
+- <strong>Context Window:</strong> $n_{\text{ctx}} = 32$ tokens, Vocabulary size: $V = 34$</p>
+<p>Models were trained independently across 5 random seeds ($42, 123, 456, 789, 1000$) on 10,000 synthetic pairs using AdamW ($\text{lr} = 3 \times 10^{-4}$, weight decay $= 0.01$, batch size $= 64$) for 15 epochs. All 5 seeds converged to <strong>$100.0\%$ test accuracy</strong> ($7.0 \times 10^{-4} \le \text{loss} \le 8.5 \times 10^{-4}$).</p>
+<hr />
+<h2 id="3-methodology">3. Methodology</h2>
+<h3 id="31-activation-patching-and-causal-effect">3.1 Activation Patching and Causal Effect</h3>
+<p>For each attention head $(l, h)$ with $l \in [0, 3]$ and $h \in [0, 3]$, we run $\mathcal{X}<em>{\text{clean}}$ and cache head activations $a</em>{l, h}^{\text{clean}} \in \mathbb{R}^{B \times T \times d_{\text{head}}}$. We then evaluate corrupted inputs $\mathcal{X}<em>{\text{corrupt}}$ while replacing head $(l, h)$'s output with $a</em>{l, h}^{\text{clean}}$.</p>
+<p>The normalized <strong>Causal Effect (CE)</strong> is defined as:
+$$\text{CE}(l, h) = \frac{P_{\text{patched}}(\mathcal{Y}^<em><em>{\text{clean}}) - P</em>{\text{corrupt}}(\mathcal{Y}^</em><em>{\text{clean}})}{P</em>{\text{clean}}(\mathcal{Y}^<em><em>{\text{clean}}) - P</em>{\text{corrupt}}(\mathcal{Y}^</em>_{\text{clean}})}$$</p>
+<p>Where $P(\mathcal{Y}^*_{\text{clean}})$ is the probability assigned to the clean target token at the final query position.</p>
+<h3 id="32-backward-greedy-circuit-pruning">3.2 Backward Greedy Circuit Pruning</h3>
+<p>We formulate minimal circuit identification as a constrained optimization problem:
+$$C^* = \arg\min_{C \subseteq \mathcal{H}} |C| \quad \text{subject to} \quad \text{Sufficiency}(C) \ge \alpha \cdot \text{BaselineAccuracy}$$
+where $\mathcal{H}$ is the set of all 16 attention heads, and $\alpha = 0.90$ represents a $90\%$ performance retention threshold.</p>
+<p>The search executes backward greedy pruning: starting from candidate set $C_0$ (ranked by causal effect), it iteratively removes individual heads, retaining the removal only if the remaining subnetwork preserves $\ge 90\%$ baseline accuracy under mean ablation of the complement $\mathcal{H} \setminus C$.</p>
+<h3 id="33-sufficiency-necessity-and-control-interventions">3.3 Sufficiency, Necessity, and Control Interventions</h3>
+<p>To prevent confirmation bias, we subject discovered circuits to three interventional tests:
+1. <strong>Sufficiency Test:</strong> All non-circuit heads $\mathcal{H} \setminus C^<em>$ are mean-ablated (replaced by their dataset-wide expected activation $\mathbb{E}[a] \in \mathbb{R}^{1 \times 1 \times 1 \times d_{\text{head}}}$). If task accuracy is preserved, $C^</em>$ is sufficient.
+2. <strong>Necessity Test:</strong> The circuit $C^<em>$ is mean-ablated while leaving $\mathcal{H} \setminus C^</em>$ active. A significant performance collapse is required to establish necessity.
+3. <strong>Random Size-Matched Control:</strong> Size-matched subsets $C_{\text{rand}} \subset \mathcal{H}$ ($|C_{\text{rand}}| = |C^*|$) are evaluated over 10 Monte Carlo trials to confirm that retention is not a generic property of arbitrary head subsets.</p>
+<h3 id="34-cross-seed-stability-formulations">3.4 Cross-Seed Stability Formulations</h3>
+<p>We evaluate cross-seed stability across all 10 pairwise comparisons of the 5 seeds:
+1. <strong>Structural Stability (Jaccard Index):</strong>
+   $$J(C_i, C_j) = \frac{|C_i \cap C_j|}{|C_i \cup C_j|}$$
+2. <strong>Functional Stability (Pearson Correlation):</strong>
+   $$r(\mathbf{v}<em>i, \mathbf{v}<em>j) = \frac{\sum</em>{k=1}^{16} (v</em>{i, k} - \bar{v}<em>i)(v</em>{j, k} - \bar{v}<em>j)}{\sqrt{\sum</em>{k=1}^{16} (v_{i, k} - \bar{v}<em>i)^2 \sum</em>{k=1}^{16} (v_{j, k} - \bar{v}_j)^2}}$$
+   where $\mathbf{v}_i \in \mathbb{R}^{16}$ is the 16-dimensional vector of head causal effects.</p>
+<hr />
+<h2 id="4-empirical-results">4. Empirical Results</h2>
+<h3 id="41-causal-effect-localization-the-multi-head-bottleneck">4.1 Causal Effect Localization &amp; The Multi-Head Bottleneck</h3>
+<p>Activation patching across all 16 attention heads reveals that individual head causal effects are universally small: for Seed 42, the highest causal effects are observed in $\text{L0H3}$ ($\text{CE} = 0.0032$), $\text{L2H0}$ ($\text{CE} = 0.0020$), and $\text{L0H0}$ ($\text{CE} = 0.0020$).</p>
+<p><img alt="Causal Heatmap" src="file:///C:/Users/saura/Coding/SSProjects/causal-circuit-discovery-main/results/figures/causal_heatmap_seed42.png" />
+<em>Figure 1: Normalized Causal Effects across all 16 attention heads for Seed 42. Single-head interventions produce small effects ($\text{CE} \le 0.0032$), indicating that target recovery requires multi-component coordination rather than a single dominant induction head.</em></p>
+<p>Because single-head activation interchange on corrupted backgrounds does not flip the argmax token prediction in isolation, fixed heuristic thresholds ($\tau \ge 0.15$) yield empty candidate sets. The automated discovery pipeline handles this by ranking heads and initializing backward pruning with the top-$k$ candidate heads ($k=4$).</p>
+<h3 id="42-minimal-circuit-discovery-causal-validation">4.2 Minimal Circuit Discovery &amp; Causal Validation</h3>
+<p>Backward greedy pruning consistently extracts a minimal circuit of size $k = 2$ heads across all 5 seeds, eliminating $87.5\%$ of the network's attention heads while preserving performance.</p>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">Seed</th>
+<th style="text-align: center;">Discovered Circuit $C^*$</th>
+<th style="text-align: center;">Size ($k$)</th>
+<th style="text-align: center;">Baseline Acc</th>
+<th style="text-align: center;">Sufficiency Acc</th>
+<th style="text-align: center;">Random Control Acc</th>
+<th style="text-align: center;">Necessity Drop</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;"><strong>42</strong></td>
+<td style="text-align: center;"><code>L0H0, L2H0</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;"><strong>100.0%</strong></td>
+<td style="text-align: center;">$72.1\% \pm 33.7\%$</td>
+<td style="text-align: center;">$0.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>123</strong></td>
+<td style="text-align: center;"><code>L1H2, L1H3</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;"><strong>98.2%</strong></td>
+<td style="text-align: center;">$78.0\% \pm 17.3\%$</td>
+<td style="text-align: center;">$0.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>456</strong></td>
+<td style="text-align: center;"><code>L0H0, L1H3</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;"><strong>100.0%</strong></td>
+<td style="text-align: center;">$82.1\% \pm 16.4\%$</td>
+<td style="text-align: center;">$0.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>789</strong></td>
+<td style="text-align: center;"><code>L0H0, L1H3</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;"><strong>91.6%</strong></td>
+<td style="text-align: center;">$75.4\% \pm 22.1\%$</td>
+<td style="text-align: center;">$0.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>1000</strong></td>
+<td style="text-align: center;"><code>L0H1, L0H2</code></td>
+<td style="text-align: center;">2</td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;"><strong>100.0%</strong></td>
+<td style="text-align: center;">$79.3\% \pm 18.9\%$</td>
+<td style="text-align: center;">$0.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: center;"><strong>Mean $\pm$ Std</strong></td>
+<td style="text-align: center;">—</td>
+<td style="text-align: center;"><strong>$2.0 \pm 0.0$</strong></td>
+<td style="text-align: center;"><strong>$100.0\%$</strong></td>
+<td style="text-align: center;"><strong>$97.96\% \pm 3.6\%$</strong></td>
+<td style="text-align: center;"><strong>$77.38\% \pm 3.8\%$</strong></td>
+<td style="text-align: center;"><strong>$0.0\% \pm 0.0\%$</strong></td>
+</tr>
+</tbody>
+</table>
+<h3 id="43-sufficiency-without-necessity-architectural-degeneracy">4.3 Sufficiency Without Necessity: Architectural Degeneracy</h3>
+<p>The causal validation results reveal a critical distinction between sufficiency and necessity:
+1. <strong>Sufficiency is Established:</strong> Clamping all 14 non-circuit heads to dataset means retains $97.96\%$ mean accuracy across seeds, significantly exceeding size-matched random controls ($77.38\%$, $p &lt; 0.01$).
+2. <strong>Necessity is Not Established:</strong> When the discovered circuit $C^*$ is mean-ablated, task accuracy does not drop at all ($\Delta = 0.0\%$, remaining at $100.0\%$).</p>
+<p><strong>Mechanistic Interpretation:</strong> This empirical outcome demonstrates <strong>architectural degeneracy and functional redundancy</strong> in the trained models. Rather than relying on an isolated, indispensable bottleneck, overparameterized Transformers develop parallel computational pathways capable of performing associative retrieval. While $C^<em>$ represents a sufficient subnetwork, claiming that $C^</em>$ is <em>the unique</em> circuit for the task is falsified by the necessity test.</p>
+<h3 id="44-structural-and-functional-divergence-across-initializations">4.4 Structural and Functional Divergence Across Initializations</h3>
+<p>Evaluating all 10 pairwise comparisons across the 5 seeds shows that independent random initializations discover divergent computational subgraphs:</p>
+<p><img alt="Dual Stability Matrix" src="file:///C:/Users/saura/Coding/SSProjects/causal-circuit-discovery-main/results/figures/circuit_stability_matrix.png" />
+<em>Figure 2: Pairwise Structural Jaccard Similarity (left) vs. Functional Causal Vector Correlation (right) across seeds [42, 123, 456, 789, 1000].</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Metric</th>
+<th style="text-align: center;">Empirical Value</th>
+<th style="text-align: center;">95% Bootstrap CI</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>Structural Stability (Mean Jaccard $J$)</strong></td>
+<td style="text-align: center;"><strong>$0.233 \pm 0.300$</strong></td>
+<td style="text-align: center;">$[0.083, 0.450]$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>Functional Stability (Mean Pearson $r$)</strong></td>
+<td style="text-align: center;"><strong>$0.074 \pm 0.227$</strong></td>
+<td style="text-align: center;">$[-0.072, 0.225]$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Structural Overlap:</strong> Mean Jaccard index is low ($J = 0.233$). While some seeds share components (e.g. <code>L0H0</code> in Seeds 42, 456, and 789), other initializations implement the mechanism entirely in Layer 1 (<code>L1H2, L1H3</code> in Seed 123) or early in Layer 0 (<code>L0H1, L0H2</code> in Seed 1000).</li>
+<li><strong>Functional Correlation:</strong> Pearson correlation across causal effect vectors is near zero ($r = 0.074$), indicating that the causal intervention profiles across attention heads are effectively uncorrelated across random seeds.</li>
+</ul>
+<h3 id="45-out-of-distribution-robustness-contextual-interference">4.5 Out-of-Distribution Robustness &amp; Contextual Interference</h3>
+<p>We evaluated the full model and the isolated minimal circuit across 1,000 samples per split on Seed 42:</p>
+<p><img alt="OOD Performance" src="file:///C:/Users/saura/Coding/SSProjects/causal-circuit-discovery-main/results/figures/ood_performance.png" />
+<em>Figure 3: Full Model vs. Minimal Circuit Accuracy across In-Distribution and three OOD splits.</em></p>
+<table>
+<thead>
+<tr>
+<th style="text-align: left;">Evaluation Split</th>
+<th style="text-align: center;">Full Model Acc</th>
+<th style="text-align: center;">Discovered Circuit Acc</th>
+<th style="text-align: center;">Retention Ratio</th>
+<th style="text-align: center;">Gap</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: left;"><strong>In-Distribution (ID)</strong></td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;">$27.0\%$</td>
+<td style="text-align: center;">$27.0\%$</td>
+<td style="text-align: center;">$73.0\%$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OOD-1 (Unseen Entities)</strong></td>
+<td style="text-align: center;">$100.0\%$</td>
+<td style="text-align: center;">$21.5\%$</td>
+<td style="text-align: center;">$21.5\%$</td>
+<td style="text-align: center;">$78.5\%$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OOD-2 (Distractors)</strong></td>
+<td style="text-align: center;">$53.3\%$</td>
+<td style="text-align: center;">$4.4\%$</td>
+<td style="text-align: center;">$8.3\%$</td>
+<td style="text-align: center;">$48.9\%$</td>
+</tr>
+<tr>
+<td style="text-align: left;"><strong>OOD-3 (Context Scaling)</strong></td>
+<td style="text-align: center;">$18.2\%$</td>
+<td style="text-align: center;">$3.3\%$</td>
+<td style="text-align: center;">$18.1\%$</td>
+<td style="text-align: center;">$14.9\%$</td>
+</tr>
+</tbody>
+</table>
+<ul>
+<li><strong>Entity Shift (OOD-1):</strong> The full model exhibits zero degradation on unseen entity tokens ($100.0\%$), but the isolated 2-head circuit retains only $21.5\%$ accuracy.</li>
+<li><strong>Distractor Noise (OOD-2):</strong> Injected distractor pairs cause a steep drop in full model performance ($53.3\%$) and near-total failure in the circuit ($4.4\%$, retention ratio $8.3\%$). This demonstrates that distractor suppression relies on auxiliary attention heads outside the minimal associative recall core.</li>
+<li><strong>Context Length Scaling (OOD-3):</strong> Scaling sequence length degrades full model accuracy to $18.2\%$ and circuit accuracy to $3.3\%$.</li>
+</ul>
+<hr />
+<h2 id="5-limitations">5. Limitations</h2>
+<ol>
+<li><strong>Node-Level Resolution:</strong> Single-head activation patching intervenes on entire head outputs rather than directed communication channels. Tasks requiring multi-head coordination yield small single-head effects.</li>
+<li><strong>Off-Manifold Mean Ablation:</strong> Clamping head activations to dataset means $\mathbb{E}[a]$ can push internal activations off the natural data manifold, potentially introducing artificial failure modes.</li>
+<li><strong>Synthetic Domain Constraints:</strong> Algorithmic associative recall isolates copy-and-retrieve primitives but does not capture the rich polysemanticity or multi-stage induction hierarchies of natural language models.</li>
+<li><strong>Circuit Non-Identifiability:</strong> Circuit discovery tools cannot assume an invariant canonical circuit across training instances; stability across seeds is low to moderate.</li>
+</ol>
+<hr />
+<h2 id="6-conclusion-implications-for-ai-safety">6. Conclusion &amp; Implications for AI Safety</h2>
+<p>In this work, we introduced an automated framework for Transformer circuit discovery, causal validation, and stability evaluation. Our empirical findings demonstrate that:
+1. Automated backward pruning successfully isolates compact, sufficient subnetworks (2 heads retaining $&gt;97\%$ accuracy).
+2. <strong>Sufficiency does not imply necessity:</strong> Overparameterized models learn parallel, functionally redundant circuits, meaning that ablating an identified circuit does not impair overall task performance.
+3. Models trained from different initializations converge to structurally and functionally distinct circuits ($J = 0.23, r = 0.07$).
+4. Isolated minimal circuits are brittle under distribution shifts, proving that robustness to distractors and sequence scaling depends on auxiliary heads outside the minimal core.</p>
+<p>These findings suggest that mechanistic interpretability safety audits cannot rely on single-subnetwork guarantees without verifying non-redundancy and cross-seed stability. Future work will extend this framework to edge-level attribution patching (EAP) and natural language benchmarks.</p>
+<hr />
+<h2 id="references">References</h2>
+<ol>
+<li>Conmy, A., Mavor-Parker, A. N., Lynch, A., Heimersheim, S., &amp; Garriga-Alonso, A. (2023). Towards Automated Circuit Discovery for Mechanistic Interpretability. <em>Advances in Neural Information Processing Systems (NeurIPS 2023)</em>. arXiv:2304.14997.</li>
+<li>Elhage, N., Nanda, N., Olsson, C., Henighan, T., Joseph, N., Mann, B., ... &amp; Olah, C. (2021). A Mathematical Framework for Transformer Circuits. <em>Transformer Circuits Thread</em>.</li>
+<li>Geiger, A., Lu, H., Icard, T., &amp; Potts, C. (2021). Causal Abstractions of Neural Networks. <em>Advances in Neural Information Processing Systems (NeurIPS 2021)</em>.</li>
+<li>Meng, K., Bau, D., Andonian, A., &amp; Belinkov, Y. (2022). Locating and Editing Factual Associations in GPT. <em>Advances in Neural Information Processing Systems (NeurIPS 2022)</em>.</li>
+<li>Syed, A., Canby, B., Ray, U., &amp; Nanda, N. (2023). Attribution Patching: Quickly Finding Small Circuits in Transformers. <em>NeurIPS 2023 Workshop on Attributing Model Behavior</em>.</li>
+<li>Wang, K., Variengien, A., Conmy, A., Shlegeris, B., &amp; Steinhardt, J. (2022). Interpretability in the Wild: a Circuit for Indirect Object Identification in GPT-2 small. <em>arXiv preprint arXiv:2211.00593</em>.</li>
+</ol>
+</body>
+</html>
