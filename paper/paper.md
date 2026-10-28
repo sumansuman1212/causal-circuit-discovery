@@ -1,6 +1,6 @@
 # Automated Discovery and Causal Validation of Minimal Transformer Circuits: Redundancy, Cross-Seed Stability, and Distribution Shift
 
-**Author:** Suman Suman  
+**Author:** Suman Saurabh
 **Affiliation:** Independent AI Safety & Mechanistic Interpretability Research  
 **Date:** October 2026  
 **Repository:** `https://github.com/sumansuman1212/causal-circuit-discovery`
